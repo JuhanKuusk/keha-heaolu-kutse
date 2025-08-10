@@ -8,7 +8,7 @@ const EmailTemplate = () => {
     { name: "LPG Massaaž", price: 29, url: "https://kehastuudio.ee/toode/lpg-massaaz-proovikord/" },
     { name: "Krüolipolüüs", price: 59, url: "https://kehastuudio.ee/toode/kruolipoluus/" },
     { name: "Kavi + RF vaakummassaaž + inframatt", price: 49, url: "https://kehastuudio.ee/toode/kavitatsioon/" },
-    { name: "WowShape kehamähis", price: 49, url: "https://kehastuudio.ee/toode/wow-shape-kehamahis/" },
+    { name: "WowShape kehamähis", price: 65, url: "https://kehastuudio.ee/toode/wow-shape-kehamahis/" },
     { name: "Inframatt + WowShape + EnddosTherapy", price: 89, url: "https://kehastuudio.ee/toode/10inframatti/" },
   ];
 
