@@ -4,12 +4,12 @@ import spaHeroBg from "@/assets/spa-hero-bg.jpg";
 
 const EmailTemplate = () => {
   const treatments = [
-    { name: "EndosTherapy", price: 33 },
-    { name: "LPG Massaaž", price: 29 },
-    { name: "Krüolipolüüs", price: 59 },
-    { name: "Kavi + RF vaakummassaaž + inframatt", price: 49 },
-    { name: "WowShape kehamähis", price: 49 },
-    { name: "Inframatt + WowShape + EnddosTherapy", price: 89 },
+    { name: "EndosTherapy", price: 33, url: "https://kehastuudio.ee/toode/endostherapy/" },
+    { name: "LPG Massaaž", price: 29, url: "https://kehastuudio.ee/toode/lpg-massaaz-proovikord/" },
+    { name: "Krüolipolüüs", price: 59, url: "https://kehastuudio.ee/toode/kruolipoluus/" },
+    { name: "Kavi + RF vaakummassaaž + inframatt", price: 49, url: "https://kehastuudio.ee/toode/kavitatsioon/" },
+    { name: "WowShape kehamähis", price: 49, url: "https://kehastuudio.ee/toode/wow-shape-kehamahis/" },
+    { name: "Inframatt + WowShape + EnddosTherapy", price: 89, url: "https://kehastuudio.ee/toode/10inframatti/" },
   ];
 
   return (
@@ -62,10 +62,15 @@ const EmailTemplate = () => {
                 {treatments.map((treatment, index) => (
                   <Card key={index} className="p-4 bg-spa-cream/30 border-spa-blush/40 hover:shadow-[var(--shadow-soft)] transition-all duration-300">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-foreground text-lg">
+                      <a 
+                        href={treatment.url}
+                        className="font-medium text-foreground text-lg hover:text-spa-rose transition-colors duration-200 cursor-pointer flex-1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {treatment.name}
-                      </span>
-                      <span className="text-2xl font-serif text-spa-rose font-bold">
+                      </a>
+                      <span className="text-2xl font-serif text-spa-rose font-bold ml-4">
                         {treatment.price} EUR
                       </span>
                     </div>
