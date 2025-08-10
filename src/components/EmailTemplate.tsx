@@ -4,12 +4,42 @@ import spaHeroBg from "@/assets/spa-hero-bg.jpg";
 
 const EmailTemplate = () => {
   const treatments = [
-    { name: "EndosTherapy", price: 33, url: "https://kehastuudio.ee/toode/endostherapy/" },
-    { name: "LPG Massaaž", price: 29, url: "https://kehastuudio.ee/toode/lpg-massaaz-proovikord/" },
-    { name: "Krüolipolüüs", price: 59, url: "https://kehastuudio.ee/toode/kruolipoluus/" },
-    { name: "Kavi + RF vaakummassaaž + inframatt", price: 49, url: "https://kehastuudio.ee/toode/kavitatsioon/" },
-    { name: "WowShape kehamähis", price: 65, url: "https://kehastuudio.ee/toode/wow-shape-kehamahis/" },
-    { name: "Inframatt + WowShape + EndosTherapy", price: 89, url: "https://kehastuudio.ee/toode/10inframatti/" },
+    { 
+      name: "EndosTherapy", 
+      price: 33, 
+      url: "https://kehastuudio.ee/toode/endostherapy/",
+      description: "Patenteeritud mikrovibratsiooni ja mikrosurve tehnoloogia tselluliidi vähendamiseks ja naha pinguldamiseks"
+    },
+    { 
+      name: "LPG Massaaž", 
+      price: 29, 
+      url: "https://kehastuudio.ee/toode/lpg-massaaz-proovikord/",
+      description: "Rullikutega vaakummassaaž vereringi parandamiseks ja tselluliidi vähendamiseks"
+    },
+    { 
+      name: "Krüolipolüüs", 
+      price: 59, 
+      url: "https://kehastuudio.ee/toode/kruolipoluus/",
+      description: "Rasvarakkude külmutamine - jäädav rasvkoe elimineerimine sihtpiirkondades"
+    },
+    { 
+      name: "Kavi + RF vaakummassaaž + inframatt", 
+      price: 49, 
+      url: "https://kehastuudio.ee/toode/kavitatsioon/",
+      description: "Ultrahelilained + raadiosagedustega massaaž + infrapunasoojus efektiivseks rasvapoletuseks"
+    },
+    { 
+      name: "WowShape kehamähis", 
+      price: 65, 
+      url: "https://kehastuudio.ee/toode/wow-shape-kehamahis/",
+      description: "Looduslike toimeainetega salendav kehamähis vööümbermõõdu vähendamiseks"
+    },
+    { 
+      name: "Inframatt + WowShape + EndosTherapy", 
+      price: 89, 
+      url: "https://kehastuudio.ee/toode/10inframatti/",
+      description: "Kombineeritud hooldus: infrapunasoojus + salendav mähis + mikrovibratsioon"
+    },
   ];
 
   return (
@@ -61,18 +91,23 @@ const EmailTemplate = () => {
               <div className="grid gap-4">
                 {treatments.map((treatment, index) => (
                   <Card key={index} className="p-4 bg-spa-cream/30 border-spa-blush/40 hover:shadow-[var(--shadow-soft)] transition-all duration-300">
-                    <div className="flex justify-between items-center">
-                      <a 
-                        href={treatment.url}
-                        className="font-medium text-foreground text-lg hover:text-spa-rose transition-colors duration-200 cursor-pointer flex-1"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {treatment.name}
-                      </a>
-                      <span className="text-2xl font-serif text-spa-rose font-bold ml-4">
-                        {treatment.price} EUR
-                      </span>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <a 
+                          href={treatment.url}
+                          className="font-medium text-foreground text-lg hover:text-spa-rose transition-colors duration-200 cursor-pointer flex-1"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {treatment.name}
+                        </a>
+                        <span className="text-2xl font-serif text-spa-rose font-bold ml-4">
+                          {treatment.price} EUR
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {treatment.description}
+                      </p>
                     </div>
                   </Card>
                 ))}
