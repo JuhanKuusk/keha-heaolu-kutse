@@ -8,33 +8,53 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 358 100% 98%;
+    --foreground: 340 15% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 340 15% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 340 15% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 340 75% 55%;
+    --primary-foreground: 358 100% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 10 100% 90%;
+    --secondary-foreground: 340 15% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 350 60% 95%;
+    --muted-foreground: 340 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 15 100% 85%;
+    --accent-foreground: 340 15% 25%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 358 100% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 350 30% 88%;
+    --input: 350 30% 88%;
+    --ring: 340 75% 55%;
+
+    /* Spa & Wellness Design Tokens */
+    --spa-rose: 340 75% 55%;
+    --spa-blush: 10 100% 90%;
+    --spa-cream: 30 50% 95%;
+    --spa-gold: 45 100% 75%;
+    --spa-warm: 15 80% 80%;
+
+    /* Gradients */
+    --gradient-romantic: linear-gradient(135deg, hsl(340, 75%, 55%), hsl(15, 80%, 80%));
+    --gradient-soft: linear-gradient(180deg, hsl(358, 100%, 98%), hsl(10, 100%, 95%));
+    --gradient-gold: linear-gradient(45deg, hsl(45, 100%, 75%), hsl(30, 80%, 85%));
+
+    /* Shadows */
+    --shadow-soft: 0 10px 25px -5px hsl(340, 50%, 80%, 0.3);
+    --shadow-elegant: 0 20px 40px -10px hsl(340, 50%, 70%, 0.25);
+
+    /* Typography */
+    --font-romantic: 'Georgia', 'Times New Roman', serif;
+    --font-elegant: 'Inter', -apple-system, sans-serif;
 
     --radius: 0.5rem;
 
