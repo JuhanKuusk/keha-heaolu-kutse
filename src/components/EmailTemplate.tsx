@@ -8,7 +8,7 @@ const EmailTemplate = () => {
     { name: "LPG Massaaž", price: 29 },
     { name: "Krüolipolüüs", price: 59 },
     { name: "Kavi + RF vaakummassaaž + inframatt", price: 49 },
-    { name: "WOWShape kehamähis", price: 49 },
+    { name: "WowShape kehamähis", price: 49 },
     { name: "Inframatt + WowShape + EnddosTherapy", price: 89 },
   ];
 
