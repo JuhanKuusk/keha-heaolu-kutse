@@ -103,9 +103,14 @@ const EmailTemplate = () => {
             </div>
 
             {/* Footer */}
-            <div className="text-center text-muted-foreground text-sm space-y-2 pt-6">
-              <p>Kehastuudio</p>
+            <div className="text-center text-muted-foreground text-sm space-y-3 pt-6">
+              <p className="text-spa-rose font-medium">Kehastuudio</p>
               <p>Teie iludus ja heaolu on meie kirg</p>
+              <div className="space-y-1">
+                <p>www.kehastuudio.ee</p>
+                <p>info@kehastuudio.ee</p>
+                <p>Tel: +372 5151566</p>
+              </div>
             </div>
 
           </div>
