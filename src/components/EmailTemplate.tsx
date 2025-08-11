@@ -125,12 +125,18 @@ const EmailTemplate = () => {
                 </p>
               </div>
               
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-spa-rose to-primary hover:from-spa-rose/90 hover:to-primary/90 text-primary-foreground px-8 py-6 rounded-2xl font-medium text-lg shadow-[var(--shadow-soft)] transition-all duration-300 hover:scale-105"
+              <a
+                href="https://broneerimine.timma.ee/kehastuudio"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Broneeri oma proovikord
-              </Button>
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-spa-rose to-primary hover:from-spa-rose/90 hover:to-primary/90 text-primary-foreground px-8 py-6 rounded-2xl font-medium text-lg shadow-[var(--shadow-soft)] transition-all duration-300 hover:scale-105"
+                >
+                  Broneeri oma proovikord
+                </Button>
+              </a>
             </div>
 
             {/* Experience Badge */}
