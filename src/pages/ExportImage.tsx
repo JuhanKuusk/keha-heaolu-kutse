@@ -60,6 +60,7 @@ const ExportImage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const ctaRef = useRef<HTMLDivElement | null>(null);
+  const autoMode = useRef<"html" | "png" | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
@@ -187,6 +188,28 @@ const ExportImage = () => {
     a.download = `kehastuudio-${img.name.replace(/\s+/g, "-").toLowerCase()}.png`;
     a.click();
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const auto = params.get("auto");
+    if (auto === "html" || auto === "png") {
+      autoMode.current = auto as "html" | "png";
+      // Genereeri pilt ja alad
+      handleGenerate();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!autoMode.current) return;
+    if (imageUrl && imageSize) {
+      if (autoMode.current === "html") {
+        handleDownloadHtml();
+      } else {
+        handleDownload();
+      }
+      autoMode.current = null;
+    }
+  }, [imageUrl, imageSize]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-spa-blush via-background to-spa-cream p-4">
