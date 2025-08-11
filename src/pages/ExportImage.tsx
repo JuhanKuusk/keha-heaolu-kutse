@@ -66,6 +66,9 @@ const ExportImage = () => {
     { coords: [number, number, number, number]; href: string; alt: string }[]
   >([]);
   const [generating, setGenerating] = useState(false);
+  const [cardImages, setCardImages] = useState<
+    { name: string; href: string; dataUrl: string; width: number; height: number }[]
+  >([]);
 
   // Koordinaatide arvutamine kaartide järgi
   const computeAreas = () => {
@@ -117,6 +120,33 @@ const ExportImage = () => {
     a.click();
   };
 
+  const handleGenerateCards = async () => {
+    try {
+      setGenerating(true);
+      const results: { name: string; href: string; dataUrl: string; width: number; height: number }[] = [];
+      for (let i = 0; i < cardRefs.current.length; i++) {
+        const el = cardRefs.current[i];
+        if (!el) continue;
+        const width = el.offsetWidth;
+        const height = el.offsetHeight;
+        const dataUrl = await toPng(el, { pixelRatio: 1, cacheBust: true, width, height });
+        results.push({ name: treatments[i].name, href: treatments[i].url, dataUrl, width, height });
+      }
+      setCardImages(results);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleDownloadCard = (img: { name: string; dataUrl: string }) => {
+    const a = document.createElement("a");
+    a.href = img.dataUrl;
+    a.download = `kehastuudio-${img.name.replace(/\s+/g, "-").toLowerCase()}.png`;
+    a.click();
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-spa-blush via-background to-spa-cream p-4">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -133,6 +163,9 @@ const ExportImage = () => {
           </Button>
           <Button onClick={handleDownload} variant="outline" disabled={!imageUrl}>
             Laadi alla PNG
+          </Button>
+          <Button onClick={handleGenerateCards} variant="secondary" disabled={generating} className="px-6">
+            Loo eraldi pildid
           </Button>
         </div>
 
@@ -245,6 +278,33 @@ const ExportImage = () => {
               Märkus: PNG ise ei sisalda linke. Klikitavus toimib HTML image-map’i abil (sobib veebilehele ja paljudesse
               e-posti kliendidesse).
             </p>
+          </section>
+        )}
+        {cardImages.length > 0 && (
+          <section className="space-y-3">
+            <h2 className="text-center text-lg font-medium">Eraldi pildid iga pakkumise jaoks</h2>
+            <div className="grid gap-6">
+              {cardImages.map((img) => (
+                <article key={img.name} className="space-y-2">
+                  <img
+                    src={img.dataUrl}
+                    alt={`Pakkumine – ${img.name}`}
+                    width={img.width}
+                    height={img.height}
+                    loading="lazy"
+                  />
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">{img.name}</span>
+                    <div className="flex gap-2">
+                      <a href={img.href} target="_blank" rel="noopener noreferrer" className="underline text-sm">
+                        Ava link
+                      </a>
+                      <Button size="sm" onClick={() => handleDownloadCard(img)}>Laadi alla</Button>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </section>
         )}
       </div>
