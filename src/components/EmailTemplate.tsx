@@ -125,6 +125,8 @@ const EmailTemplate = () => {
                 </p>
               </div>
               
+              <div style={{ height: "1cm" }} aria-hidden="true" />
+              
               <a
                 href="https://broneerimine.timma.ee/kehastuudio"
                 target="_blank"
