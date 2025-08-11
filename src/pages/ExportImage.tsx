@@ -59,6 +59,7 @@ const treatments: Treatment[] = [
 const ExportImage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
@@ -70,13 +71,15 @@ const ExportImage = () => {
     { name: string; href: string; dataUrl: string; width: number; height: number }[]
   >([]);
 
-  // Koordinaatide arvutamine kaartide järgi
+  // Koordinaatide arvutamine kaartide ja CTA järgi
   const computeAreas = () => {
     const container = containerRef.current;
-    if (!container) return [] as { coords: [number, number, number, number]; href: string; alt: string }[];
+    if (!container)
+      return [] as { coords: [number, number, number, number]; href: string; alt: string }[];
 
     const containerRect = container.getBoundingClientRect();
-    return treatments
+
+    const arr = (treatments
       .map((t, i) => {
         const el = cardRefs.current[i];
         if (!el) return null;
@@ -85,9 +88,30 @@ const ExportImage = () => {
         const top = Math.max(0, Math.round(r.top - containerRect.top));
         const right = Math.round(left + r.width);
         const bottom = Math.round(top + r.height);
-        return { coords: [left, top, right, bottom] as [number, number, number, number], href: t.url, alt: t.name };
+        return {
+          coords: [left, top, right, bottom] as [number, number, number, number],
+          href: t.url,
+          alt: t.name,
+        };
       })
-      .filter(Boolean) as { coords: [number, number, number, number]; href: string; alt: string }[];
+      .filter(Boolean) as { coords: [number, number, number, number]; href: string; alt: string }[]);
+
+    // Lisa CTA (broneerimine) klikatav ala, kui olemas
+    const ctaEl = ctaRef.current;
+    if (ctaEl) {
+      const r = ctaEl.getBoundingClientRect();
+      const left = Math.max(0, Math.round(r.left - containerRect.left));
+      const top = Math.max(0, Math.round(r.top - containerRect.top));
+      const right = Math.round(left + r.width);
+      const bottom = Math.round(top + r.height);
+      arr.push({
+        coords: [left, top, right, bottom],
+        href: "https://broneerimine.timma.ee/kehastuudio",
+        alt: "Broneeri oma proovikord",
+      });
+    }
+
+    return arr;
   };
 
   const handleGenerate = async () => {
@@ -118,6 +142,23 @@ const ExportImage = () => {
     a.href = imageUrl;
     a.download = "kehastuudio-pakkumised.png";
     a.click();
+  };
+
+  const handleDownloadHtml = () => {
+    if (!imageUrl || !imageSize) return;
+    const mapAreas = areas
+      .map(
+        (a) => `<area shape="rect" coords="${a.coords.join(',')}" href="${a.href}" alt="${a.alt}" target="_blank" rel="noopener noreferrer" />`
+      )
+      .join('\n');
+    const html = `<!doctype html>\n<html lang=\"et\">\n<head>\n<meta charset=\"UTF-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n<title>Kehastuudio pakkumised – klikatav pilt</title>\n</head>\n<body style=\"margin:0; padding:20px; background:#fbf7f5;\">\n  <center>\n    <div style=\"max-width:${imageSize.width}px;\">\n      <img src=\"${imageUrl}\" alt=\"Kehastuudio pakkumised\" usemap=\"#offers-map\" width=\"${imageSize.width}\" height=\"${imageSize.height}\" style=\"display:block; width:100%; height:auto;\"/>\n      <map name=\"offers-map\">\n        ${mapAreas}\n      </map>\n    </div>\n  </center>\n</body>\n</html>`;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'kehastuudio-pakkumised-clickable.html';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleGenerateCards = async () => {
@@ -163,6 +204,9 @@ const ExportImage = () => {
           </Button>
           <Button onClick={handleDownload} variant="outline" disabled={!imageUrl}>
             Laadi alla PNG
+          </Button>
+          <Button onClick={handleDownloadHtml} variant="outline" disabled={!imageUrl}>
+            Laadi alla HTML (klikitav)
           </Button>
           <Button onClick={handleGenerateCards} variant="secondary" disabled={generating} className="px-6">
             Loo eraldi pildid
@@ -220,7 +264,7 @@ const ExportImage = () => {
               </div>
 
               <div className="text-center space-y-6 pt-4">
-                <div className="bg-gradient-to-r from-spa-blush to-spa-warm p-6 rounded-2xl">
+                <div ref={ctaRef} className="bg-gradient-to-r from-spa-blush to-spa-warm p-6 rounded-2xl">
                   <p className="text-lg font-medium text-spa-rose mb-4">Oled alati oodatud ka tasuta konsultatsioonile!</p>
                   <p className="text-foreground">Meie spetsialist leiab Teile prima ja efektiivseima lahenduse.</p>
                 </div>
