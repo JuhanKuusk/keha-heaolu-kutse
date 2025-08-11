@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ExportImage from "./pages/ExportImage";
 import ExportEmail from "./pages/ExportEmail";
+import MyFiles from "./pages/MyFiles";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/export-image" element={<ExportImage />} />
           <Route path="/export-email" element={<ExportEmail />} />
+          <Route path="/files" element={<MyFiles />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

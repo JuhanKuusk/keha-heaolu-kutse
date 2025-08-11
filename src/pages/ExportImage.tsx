@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import spaHeroBg from "@/assets/spa-hero-bg.jpg";
 import { toPng } from "html-to-image";
+import { saveImage } from "@/lib/my-files";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Treatment {
   name: string;
@@ -61,6 +63,7 @@ const ExportImage = () => {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const ctaRef = useRef<HTMLDivElement | null>(null);
   const autoMode = useRef<"html" | "png" | null>(null);
+  const queuedSave = useRef<string | null>(null);
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageSize, setImageSize] = useState<{ width: number; height: number } | null>(null);
@@ -71,6 +74,8 @@ const ExportImage = () => {
   const [cardImages, setCardImages] = useState<
     { name: string; href: string; dataUrl: string; width: number; height: number }[]
   >([]);
+
+  const { toast } = useToast();
 
   // Koordinaatide arvutamine kaartide ja CTA järgi
   const computeAreas = () => {
@@ -189,6 +194,25 @@ const ExportImage = () => {
     a.click();
   };
 
+  const handleSaveToMyFiles = async () => {
+    try {
+      const filename = "kehastuudio-pakkumised.png";
+      if (imageUrl) {
+        const blob = await (await fetch(imageUrl)).blob();
+        await saveImage(blob, filename);
+        toast({ title: "Salvestatud", description: "Fail on nüüd jaotises \"My Files\"." });
+        return;
+      }
+      // Kui pilti veel pole, genereeri ja salvesta pärast
+      queuedSave.current = filename;
+      await handleGenerate();
+      // edasine salvestamine toimub useEffectis
+    } catch (e) {
+      console.error(e);
+      toast({ title: "Salvestamine ebaõnnestus", description: "Palun proovi uuesti.", variant: "destructive" });
+    }
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const auto = params.get("auto");
@@ -211,6 +235,23 @@ const ExportImage = () => {
     }
   }, [imageUrl, imageSize]);
 
+  useEffect(() => {
+    if (!queuedSave.current) return;
+    if (!imageUrl) return;
+    (async () => {
+      try {
+        const blob = await (await fetch(imageUrl)).blob();
+        await saveImage(blob, queuedSave.current!);
+        toast({ title: "Salvestatud", description: "Fail on nüüd jaotises \"My Files\"." });
+      } catch (e) {
+        console.error(e);
+        toast({ title: "Salvestamine ebaõnnestus", description: "Palun proovi uuesti.", variant: "destructive" });
+      } finally {
+        queuedSave.current = null;
+      }
+    })();
+  }, [imageUrl]);
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-spa-blush via-background to-spa-cream p-4">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -230,6 +271,9 @@ const ExportImage = () => {
           </Button>
           <Button onClick={handleDownloadHtml} variant="outline" disabled={!imageUrl}>
             Laadi alla HTML (klikitav)
+          </Button>
+          <Button onClick={handleSaveToMyFiles} variant="secondary" disabled={generating}>
+            Salvesta Minu failidesse
           </Button>
           <Button onClick={handleGenerateCards} variant="secondary" disabled={generating} className="px-6">
             Loo eraldi pildid
