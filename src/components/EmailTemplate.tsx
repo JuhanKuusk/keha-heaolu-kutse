@@ -37,7 +37,7 @@ const EmailTemplate = () => {
     { 
       name: "Inframatt + WowShape + EndosTherapy", 
       price: 89, 
-      url: "https://kehastuudio.ee/toode/10inframatti/",
+      url: "https://kehastuudio.ee/toode/inframatt-wowshape-endostherapy-kombo/",
       description: "Kombineeritud hooldus: infrapunasoojus + salendav mähis + mikrovibratsioon"
     },
   ];
